@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  keycloak:
+    image:  quay.io/keycloak/keycloak:21.1
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: 192.168.5.155
+      KC_DB_URL_DATABASE: keycloakdb
+      KC_DB_USERNAME: keycloakdbuser
+      KC_DB_PASSWORD: EqhvLbsPhrkkZjcaGWcV7qT
+      KC_DB_SCHEMA: public
+      KC_DB_URL_PORT: 5432
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: rwXPqspCABJzqh47i723wf9
+      JGROUPS_DISCOVERY_EXTERNAL_IP: 192.168.5.26
+      KC_HTTP_ENABLED: true
+      KC_LOG_LEVEL: INFO,org.infinispan:DEBUG,org.jgroups:INFO
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_PROXY: none
+    ports:
+      - 8080:8080  
+      - 57800:57800
+      - 7800:7800
+    command: start --cache-config-file=cache-ispn-jdbc-ping.xml --http-enabled true  --hostname-strict-https false
+    volumes:
+      - ./cache-ispn-jdbc-ping.xml:/opt/keycloak/conf/cache-ispn-jdbc-ping.xml
+    restart: always
